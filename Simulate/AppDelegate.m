@@ -19,7 +19,7 @@
 
 - (void)awakeFromNib {
     NSOpenGLPixelFormatAttribute attr[] = {
-        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion4_1Core,
+        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
         NSOpenGLPFADoubleBuffer, 1,
         NSOpenGLPFAColorSize, 24,
         NSOpenGLPFAAlphaSize, 8,
