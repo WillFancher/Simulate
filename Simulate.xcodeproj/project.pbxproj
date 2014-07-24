@@ -8,10 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		7E43A8171981A48E00C22D22 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8161981A48E00C22D22 /* main.m */; };
-		7E43A81A1981A48E00C22D22 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8191981A48E00C22D22 /* AppDelegate.m */; };
 		7E43A81C1981A48E00C22D22 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E43A81B1981A48E00C22D22 /* Images.xcassets */; };
-		7E43A81F1981A48E00C22D22 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E43A81D1981A48E00C22D22 /* MainMenu.xib */; };
 		7E43A82B1981A48E00C22D22 /* SimulateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A82A1981A48E00C22D22 /* SimulateTests.m */; };
+		7E43A8531981A4E000C22D22 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8351981A4E000C22D22 /* AppDelegate.m */; };
+		7E43A8541981A4E000C22D22 /* applyO2.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8361981A4E000C22D22 /* applyO2.cl */; };
+		7E43A8551981A4E000C22D22 /* ApplyO2Kernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8381981A4E000C22D22 /* ApplyO2Kernel.m */; };
+		7E43A8561981A4E000C22D22 /* fragment.fs in Resources */ = {isa = PBXBuildFile; fileRef = 7E43A8391981A4E000C22D22 /* fragment.fs */; };
+		7E43A8571981A4E000C22D22 /* integration.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A83A1981A4E000C22D22 /* integration.cl */; };
+		7E43A8581981A4E000C22D22 /* IntegrationKernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A83C1981A4E000C22D22 /* IntegrationKernel.m */; };
+		7E43A8591981A4E000C22D22 /* Kernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A83E1981A4E000C22D22 /* Kernel.m */; };
+		7E43A85A1981A4E000C22D22 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E43A83F1981A4E000C22D22 /* MainMenu.xib */; };
+		7E43A85B1981A4E000C22D22 /* make_image.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8401981A4E000C22D22 /* make_image.cl */; };
+		7E43A85C1981A4E000C22D22 /* move.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8411981A4E000C22D22 /* move.cl */; };
+		7E43A85D1981A4E000C22D22 /* MoveKernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8431981A4E000C22D22 /* MoveKernel.m */; };
+		7E43A85E1981A4E000C22D22 /* OpenCLQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8451981A4E000C22D22 /* OpenCLQueue.m */; };
+		7E43A85F1981A4E000C22D22 /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8471981A4E000C22D22 /* OpenGLView.m */; };
+		7E43A8601981A4E000C22D22 /* ProliferatingSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8491981A4E000C22D22 /* ProliferatingSystem.m */; };
+		7E43A8611981A4E000C22D22 /* proliferation.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A84A1981A4E000C22D22 /* proliferation.cl */; };
+		7E43A8621981A4E000C22D22 /* ProliferationKernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A84C1981A4E000C22D22 /* ProliferationKernel.m */; };
+		7E43A8631981A4E000C22D22 /* SharedFloat4Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A84E1981A4E000C22D22 /* SharedFloat4Data.m */; };
+		7E43A8641981A4E000C22D22 /* SharedIntData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8501981A4E000C22D22 /* SharedIntData.m */; };
+		7E43A8651981A4E000C22D22 /* test.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8511981A4E000C22D22 /* test.cl */; };
+		7E43A8661981A4E000C22D22 /* vertex.vs in Resources */ = {isa = PBXBuildFile; fileRef = 7E43A8521981A4E000C22D22 /* vertex.vs */; };
+		7E43A8681981A4F700C22D22 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E43A8671981A4F700C22D22 /* OpenGL.framework */; };
+		7E43A86A1981A4FA00C22D22 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E43A8691981A4FA00C22D22 /* OpenCL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,13 +48,43 @@
 		7E43A8111981A48E00C22D22 /* Simulate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simulate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E43A8151981A48E00C22D22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E43A8161981A48E00C22D22 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7E43A8181981A48E00C22D22 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		7E43A8191981A48E00C22D22 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7E43A81B1981A48E00C22D22 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		7E43A81E1981A48E00C22D22 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7E43A8241981A48E00C22D22 /* SimulateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimulateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E43A8291981A48E00C22D22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E43A82A1981A48E00C22D22 /* SimulateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimulateTests.m; sourceTree = "<group>"; };
+		7E43A8341981A4E000C22D22 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		7E43A8351981A4E000C22D22 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7E43A8361981A4E000C22D22 /* applyO2.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = applyO2.cl; sourceTree = "<group>"; };
+		7E43A8371981A4E000C22D22 /* ApplyO2Kernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyO2Kernel.h; sourceTree = "<group>"; };
+		7E43A8381981A4E000C22D22 /* ApplyO2Kernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyO2Kernel.m; sourceTree = "<group>"; };
+		7E43A8391981A4E000C22D22 /* fragment.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fragment.fs; sourceTree = "<group>"; };
+		7E43A83A1981A4E000C22D22 /* integration.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = integration.cl; sourceTree = "<group>"; };
+		7E43A83B1981A4E000C22D22 /* IntegrationKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegrationKernel.h; sourceTree = "<group>"; };
+		7E43A83C1981A4E000C22D22 /* IntegrationKernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationKernel.m; sourceTree = "<group>"; };
+		7E43A83D1981A4E000C22D22 /* Kernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kernel.h; sourceTree = "<group>"; };
+		7E43A83E1981A4E000C22D22 /* Kernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Kernel.m; sourceTree = "<group>"; };
+		7E43A83F1981A4E000C22D22 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		7E43A8401981A4E000C22D22 /* make_image.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = make_image.cl; sourceTree = "<group>"; };
+		7E43A8411981A4E000C22D22 /* move.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = move.cl; sourceTree = "<group>"; };
+		7E43A8421981A4E000C22D22 /* MoveKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveKernel.h; sourceTree = "<group>"; };
+		7E43A8431981A4E000C22D22 /* MoveKernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoveKernel.m; sourceTree = "<group>"; };
+		7E43A8441981A4E000C22D22 /* OpenCLQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCLQueue.h; sourceTree = "<group>"; };
+		7E43A8451981A4E000C22D22 /* OpenCLQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenCLQueue.m; sourceTree = "<group>"; };
+		7E43A8461981A4E000C22D22 /* OpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
+		7E43A8471981A4E000C22D22 /* OpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
+		7E43A8481981A4E000C22D22 /* ProliferatingSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProliferatingSystem.h; sourceTree = "<group>"; };
+		7E43A8491981A4E000C22D22 /* ProliferatingSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProliferatingSystem.m; sourceTree = "<group>"; };
+		7E43A84A1981A4E000C22D22 /* proliferation.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = proliferation.cl; sourceTree = "<group>"; };
+		7E43A84B1981A4E000C22D22 /* ProliferationKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProliferationKernel.h; sourceTree = "<group>"; };
+		7E43A84C1981A4E000C22D22 /* ProliferationKernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProliferationKernel.m; sourceTree = "<group>"; };
+		7E43A84D1981A4E000C22D22 /* SharedFloat4Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedFloat4Data.h; sourceTree = "<group>"; };
+		7E43A84E1981A4E000C22D22 /* SharedFloat4Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedFloat4Data.m; sourceTree = "<group>"; };
+		7E43A84F1981A4E000C22D22 /* SharedIntData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedIntData.h; sourceTree = "<group>"; };
+		7E43A8501981A4E000C22D22 /* SharedIntData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedIntData.m; sourceTree = "<group>"; };
+		7E43A8511981A4E000C22D22 /* test.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = test.cl; sourceTree = "<group>"; };
+		7E43A8521981A4E000C22D22 /* vertex.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = vertex.vs; sourceTree = "<group>"; };
+		7E43A8671981A4F700C22D22 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		7E43A8691981A4FA00C22D22 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +92,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E43A86A1981A4FA00C22D22 /* OpenCL.framework in Frameworks */,
+				7E43A8681981A4F700C22D22 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +110,8 @@
 		7E43A8081981A48E00C22D22 = {
 			isa = PBXGroup;
 			children = (
+				7E43A8691981A4FA00C22D22 /* OpenCL.framework */,
+				7E43A8671981A4F700C22D22 /* OpenGL.framework */,
 				7E43A8131981A48E00C22D22 /* Simulate */,
 				7E43A8271981A48E00C22D22 /* SimulateTests */,
 				7E43A8121981A48E00C22D22 /* Products */,
@@ -76,10 +130,9 @@
 		7E43A8131981A48E00C22D22 /* Simulate */ = {
 			isa = PBXGroup;
 			children = (
-				7E43A8181981A48E00C22D22 /* AppDelegate.h */,
-				7E43A8191981A48E00C22D22 /* AppDelegate.m */,
+				7EE492B31981A5A800C881A7 /* Cocoa */,
+				7EE492B41981A66900C881A7 /* CL */,
 				7E43A81B1981A48E00C22D22 /* Images.xcassets */,
-				7E43A81D1981A48E00C22D22 /* MainMenu.xib */,
 				7E43A8141981A48E00C22D22 /* Supporting Files */,
 			);
 			path = Simulate;
@@ -109,6 +162,51 @@
 				7E43A8291981A48E00C22D22 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7EE492B31981A5A800C881A7 /* Cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				7E43A8341981A4E000C22D22 /* AppDelegate.h */,
+				7E43A8351981A4E000C22D22 /* AppDelegate.m */,
+				7E43A83F1981A4E000C22D22 /* MainMenu.xib */,
+				7E43A8461981A4E000C22D22 /* OpenGLView.h */,
+				7E43A8471981A4E000C22D22 /* OpenGLView.m */,
+				7E43A8511981A4E000C22D22 /* test.cl */,
+				7E43A8391981A4E000C22D22 /* fragment.fs */,
+				7E43A8521981A4E000C22D22 /* vertex.vs */,
+			);
+			name = Cocoa;
+			sourceTree = "<group>";
+		};
+		7EE492B41981A66900C881A7 /* CL */ = {
+			isa = PBXGroup;
+			children = (
+				7E43A8361981A4E000C22D22 /* applyO2.cl */,
+				7E43A83A1981A4E000C22D22 /* integration.cl */,
+				7E43A8411981A4E000C22D22 /* move.cl */,
+				7E43A84A1981A4E000C22D22 /* proliferation.cl */,
+				7E43A8401981A4E000C22D22 /* make_image.cl */,
+				7E43A8371981A4E000C22D22 /* ApplyO2Kernel.h */,
+				7E43A8381981A4E000C22D22 /* ApplyO2Kernel.m */,
+				7E43A83B1981A4E000C22D22 /* IntegrationKernel.h */,
+				7E43A83C1981A4E000C22D22 /* IntegrationKernel.m */,
+				7E43A83D1981A4E000C22D22 /* Kernel.h */,
+				7E43A83E1981A4E000C22D22 /* Kernel.m */,
+				7E43A8421981A4E000C22D22 /* MoveKernel.h */,
+				7E43A8431981A4E000C22D22 /* MoveKernel.m */,
+				7E43A8441981A4E000C22D22 /* OpenCLQueue.h */,
+				7E43A8451981A4E000C22D22 /* OpenCLQueue.m */,
+				7E43A8481981A4E000C22D22 /* ProliferatingSystem.h */,
+				7E43A8491981A4E000C22D22 /* ProliferatingSystem.m */,
+				7E43A84B1981A4E000C22D22 /* ProliferationKernel.h */,
+				7E43A84C1981A4E000C22D22 /* ProliferationKernel.m */,
+				7E43A84D1981A4E000C22D22 /* SharedFloat4Data.h */,
+				7E43A84E1981A4E000C22D22 /* SharedFloat4Data.m */,
+				7E43A84F1981A4E000C22D22 /* SharedIntData.h */,
+				7E43A8501981A4E000C22D22 /* SharedIntData.m */,
+			);
+			name = CL;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,8 +288,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E43A8561981A4E000C22D22 /* fragment.fs in Resources */,
 				7E43A81C1981A48E00C22D22 /* Images.xcassets in Resources */,
-				7E43A81F1981A48E00C22D22 /* MainMenu.xib in Resources */,
+				7E43A8661981A4E000C22D22 /* vertex.vs in Resources */,
+				7E43A85A1981A4E000C22D22 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,8 +309,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E43A81A1981A48E00C22D22 /* AppDelegate.m in Sources */,
+				7E43A8651981A4E000C22D22 /* test.cl in Sources */,
+				7E43A8541981A4E000C22D22 /* applyO2.cl in Sources */,
+				7E43A8641981A4E000C22D22 /* SharedIntData.m in Sources */,
+				7E43A8621981A4E000C22D22 /* ProliferationKernel.m in Sources */,
+				7E43A8571981A4E000C22D22 /* integration.cl in Sources */,
+				7E43A85B1981A4E000C22D22 /* make_image.cl in Sources */,
+				7E43A85C1981A4E000C22D22 /* move.cl in Sources */,
+				7E43A8531981A4E000C22D22 /* AppDelegate.m in Sources */,
+				7E43A85E1981A4E000C22D22 /* OpenCLQueue.m in Sources */,
+				7E43A8551981A4E000C22D22 /* ApplyO2Kernel.m in Sources */,
+				7E43A8631981A4E000C22D22 /* SharedFloat4Data.m in Sources */,
+				7E43A8601981A4E000C22D22 /* ProliferatingSystem.m in Sources */,
+				7E43A85F1981A4E000C22D22 /* OpenGLView.m in Sources */,
+				7E43A8611981A4E000C22D22 /* proliferation.cl in Sources */,
 				7E43A8171981A48E00C22D22 /* main.m in Sources */,
+				7E43A8591981A4E000C22D22 /* Kernel.m in Sources */,
+				7E43A8581981A4E000C22D22 /* IntegrationKernel.m in Sources */,
+				7E43A85D1981A4E000C22D22 /* MoveKernel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,17 +347,6 @@
 			targetProxy = 7E43A8251981A48E00C22D22 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		7E43A81D1981A48E00C22D22 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7E43A81E1981A48E00C22D22 /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		7E43A82C1981A48E00C22D22 /* Debug */ = {
@@ -397,6 +502,7 @@
 				7E43A8301981A48E00C22D22 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7E43A8311981A48E00C22D22 /* Build configuration list for PBXNativeTarget "SimulateTests" */ = {
 			isa = XCConfigurationList;
@@ -405,6 +511,7 @@
 				7E43A8331981A48E00C22D22 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
