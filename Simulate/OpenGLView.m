@@ -86,6 +86,7 @@ static void checkCLError(cl_int err) {
     cl_command_queue command_queue;
     cl_kernel kernel;
     cl_mem cl_colors;
+    cl_mem cl_points;
     
     NSDate *start;
 }
@@ -114,19 +115,17 @@ static void checkCLError(cl_int err) {
         0.0f, 0.0f,  1.0f, 1.0f
     };
     
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+    
     glGenBuffers(1, &points_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, points_vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
     
     glGenBuffers(1, &colors_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, colors_vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-    
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ARRAY_BUFFER, points_vbo);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-    glBindBuffer(GL_ARRAY_BUFFER, colors_vbo);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, NULL);
     
     glEnableVertexAttribArray(0);
@@ -158,6 +157,8 @@ static void checkCLError(cl_int err) {
     cl_queue = gcl_create_dispatch_queue(CL_DEVICE_TYPE_ALL, NULL);
     context = gcl_get_context();
     cl_colors = clCreateFromGLBuffer(context, CL_MEM_READ_WRITE, colors_vbo, &err);
+    checkCLError(err);
+    cl_points = clCreateFromGLBuffer(context, CL_MEM_READ_WRITE, points_vbo, &err);
     checkCLError(err);
     command_queue = clCreateCommandQueue(context, gcl_get_device_id_with_dispatch_queue(cl_queue), 0, &err);
     checkCLError(err);
@@ -199,26 +200,31 @@ static void checkCLError(cl_int err) {
     glEnable(GL_BLEND);
     glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
     
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    
     glClearColor(0, 0, .29, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     
     glUseProgram(shaderProgram);
     
     glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glPointSize(5);
+    glDrawArrays(GL_POINTS, 0, 3);
     
     glFinish();
 }
 
 - (void)cl_execute {
-    cl_float time = [start timeIntervalSinceNow];
+    cl_float time = -[start timeIntervalSinceNow];
     
     checkCLError(clEnqueueAcquireGLObjects(command_queue, 1, &cl_colors, 0, NULL, NULL));
     
     checkCLError(clSetKernelArg(kernel, 0, sizeof(cl_mem), &cl_colors));
-    checkCLError(clSetKernelArg(kernel, 1, sizeof(cl_float), &time));
+    checkCLError(clSetKernelArg(kernel, 1, sizeof(cl_mem), &cl_points));
+    checkCLError(clSetKernelArg(kernel, 2, sizeof(cl_float), &time));
     
     size_t global_size = 3;
     checkCLError(clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, &global_size, NULL, 0, NULL, NULL));
