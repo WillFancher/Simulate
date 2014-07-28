@@ -201,7 +201,7 @@ static void checkCLError(cl_int err) {
     [self cl_execute];
     
     glEnable(GL_BLEND);
-    glBlendFuncSeparate(GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
+    glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
     
     glClearColor(0, 0, .29, 1);
     glClear(GL_COLOR_BUFFER_BIT);
