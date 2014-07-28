@@ -193,10 +193,6 @@ static void checkCLError(cl_int err) {
     glAttachShader(shaderProgram, shader);
 }
 
-- (const GLchar *)textForResource:(NSString *)resource ofType:(NSString *)type {
-    return [[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:resource ofType:type] encoding:NSUTF8StringEncoding error:nil] UTF8String];
-}
-
 - (void)drawRect:(NSRect)dirtyRect {
     [self cl_execute];
     
