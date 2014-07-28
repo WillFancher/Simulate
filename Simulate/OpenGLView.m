@@ -150,6 +150,10 @@ static void checkCLError(cl_int err) {
 }
 
 - (void)clinit {
+    char openCLVersion[150];
+    checkCLError(clGetPlatformInfo(NULL, CL_PLATFORM_VERSION, sizeof(openCLVersion), openCLVersion, NULL));
+    printf("Using OpenCL version: %s\n", openCLVersion);
+    
     int err;
     CGLShareGroupObj kCGLShareGroup = CGLGetShareGroup(self.openGLContext.CGLContextObj);
     gcl_gl_set_sharegroup(kCGLShareGroup);
