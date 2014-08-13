@@ -1,4 +1,4 @@
-inline uint rand(ulong random) {
+inline ulong rand(ulong random) {
     ulong gti = get_global_id(0);
     ulong seed = random + gti;
     seed = (seed * 0x5DEECE66DL + 0xBL) & ((1L << 48) - 1);
@@ -30,15 +30,15 @@ __kernel void proliferation(ulong random,
         }
     }
     
-    
-    float percent = (float)rand(random) / (float)4294967295;
+    ulong seed = random;
+    float percent = (seed = (float)rand(seed)) / (float)4294967295;
     
     float4 newCell;
     if (cellData[index].w == 2 && percent > threshold) {
         float4 thisCell = cellData[index];
-        newCell.x = thisCell.x - .01;
-        newCell.y = thisCell.y - .01;
-        newCell.z = thisCell.z - .01;
+        newCell.x = thisCell.x + ((seed = rand(seed)) % 2 == 0 ? 0.1 : -0.1);
+        newCell.y = thisCell.y + ((seed = rand(seed)) % 2 == 0 ? 0.1 : -0.1);
+        newCell.z = thisCell.z + ((seed = rand(seed)) % 2 == 0 ? 0.1 : -0.1);
         newCell.w = 1;
     } else {
         newCell.x = 0;

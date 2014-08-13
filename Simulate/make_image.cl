@@ -1,18 +1,25 @@
 __kernel void make_image(__global float4 *cellData,
                          int numCells,
-                         write_only image3d_t image,
+                         __global float *positionData,
+                         __global float *colorData,
                          float scale) {
-    int x = get_global_id(0);
-    int y = get_global_id(1);
-    int z = get_global_id(2);
+    int gti = get_global_id(0);
+    int x = positionData[gti * 3 + 0];
+    int y = positionData[gti * 3 + 1];
+    int z = positionData[gti * 3 + 2];
     
-    float3 position = (x,y,z);
+    float3 position;
+    position.x = x;
+    position.y = y;
+    position.z = z;
     int nearbyCells = 0;
     for (int i = 0; i < numCells; ++i) {
-        if (distance(position * scale, cellData[i].xyz) <= scale) {
+        if (all(fabs(position - cellData[i].xyz) <= scale)) {
             ++nearbyCells;
         }
     }
-    float val = nearbyCells / (3.14159 * pow(scale, 3) * 4.0/3.0);
-    write_imagef(image, (x,y,z,0), (1, 1, 1, val));
+    float val = nearbyCells / pow(scale * 2, 3);
+//    val = val > 1 ? 1 : val < 0 ? 0 : val;
+    val = val > 0 ? 1 : 0;
+    colorData[gti * 4 + 3] = val;
 }

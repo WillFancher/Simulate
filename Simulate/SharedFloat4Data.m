@@ -31,12 +31,20 @@
     }
 }
 
-- (void)copyFromHost {
-    gcl_memcpy(self.deviceData, self.hostData, self.length * sizeof(cl_float4));
+- (void)copyFromHost:(OpenCLQueue *)queue {
+    //    gcl_memcpy(self.deviceData, self.hostData, self.length * sizeof(cl_float4));
+    cl_mem mem = gcl_create_buffer_from_ptr(self.deviceData);
+    checkCLError(clEnqueueWriteBuffer(queue.command_queue, mem, CL_TRUE, 0, self.length * sizeof(cl_float4), self.hostData, 0, NULL, NULL));
+    checkCLError(clReleaseMemObject(mem));
+    checkCLError(clFinish(queue.command_queue));
 }
 
-- (void)copyFromDevice {
-    gcl_memcpy(self.hostData, self.deviceData, self.length * sizeof(cl_float4));
+- (void)copyFromDevice:(OpenCLQueue *)queue {
+//    gcl_memcpy(self.hostData, self.deviceData, self.length * sizeof(cl_float4));
+    cl_mem mem = gcl_create_buffer_from_ptr(self.deviceData);
+    checkCLError(clEnqueueReadBuffer(queue.command_queue, mem, CL_TRUE, 0, self.length * sizeof(cl_float4), self.hostData, 0, NULL, NULL));
+    checkCLError(clReleaseMemObject(mem));
+    checkCLError(clFinish(queue.command_queue));
 }
 
 @end

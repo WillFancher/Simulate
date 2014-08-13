@@ -63,9 +63,9 @@
 
 - (void)stepWithQueue:(OpenCLQueue *)queue {
     [queue dispatchSynchronous:^{
-        [self.cellData copyFromHost];
-        [self.integratorData copyFromHost];
-        [self.sourceData copyFromHost];
+        [self.cellData copyFromHost:queue];
+        [self.integratorData copyFromHost:queue];
+        [self.sourceData copyFromHost:queue];
     }];
     for (id<Kernel> kernel in self.kernels) {
         [kernel runKernelInSystem:self queue:queue];

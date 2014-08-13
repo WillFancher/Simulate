@@ -10,6 +10,8 @@
 @import OpenCL;
 @import OpenGL;
 
+void checkCLError(cl_int err);
+
 /*
  OpenCLQueue is a class used to get a queue ready for running OpenCL kernels
  */
@@ -19,6 +21,7 @@
 @property dispatch_queue_t queue;
 @property cl_context context;
 @property cl_device_id device;
+@property cl_command_queue command_queue;
 
 - (instancetype)initWithCGLContext:(CGLContextObj)context;
 

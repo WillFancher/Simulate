@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OpenCLQueue.h"
 @import OpenCL;
 
 @interface SharedFloat4Data : NSObject
@@ -17,7 +18,7 @@
 
 - (instancetype)initWithLength:(int)length;
 - (instancetype)initWithHostPointer:(cl_float4*)hostData length:(int)length;
-- (void)copyFromHost;
-- (void)copyFromDevice;
+- (void)copyFromHost:(OpenCLQueue *)queue;
+- (void)copyFromDevice:(OpenCLQueue *)queue;
 
 @end

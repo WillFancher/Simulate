@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "OpenGLView.h"
+#import "SimulationView.h"
 
 @interface AppDelegate ()
 
@@ -26,7 +27,7 @@
         0
     };
     NSOpenGLPixelFormat *pix = [[NSOpenGLPixelFormat alloc] initWithAttributes:attr];
-    self.window.contentView = [[OpenGLView alloc] initWithFrame:self.window.frame pixelFormat: pix];
+    self.window.contentView = [[SimulationView alloc] initWithFrame:self.window.frame pixelFormat: pix];
 }
             
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {

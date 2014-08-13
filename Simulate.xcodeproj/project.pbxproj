@@ -13,7 +13,6 @@
 		7E43A8531981A4E000C22D22 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8351981A4E000C22D22 /* AppDelegate.m */; };
 		7E43A8541981A4E000C22D22 /* applyO2.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8361981A4E000C22D22 /* applyO2.cl */; };
 		7E43A8551981A4E000C22D22 /* ApplyO2Kernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8381981A4E000C22D22 /* ApplyO2Kernel.m */; };
-		7E43A8561981A4E000C22D22 /* fragment.fs in Resources */ = {isa = PBXBuildFile; fileRef = 7E43A8391981A4E000C22D22 /* fragment.fs */; };
 		7E43A8571981A4E000C22D22 /* integration.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A83A1981A4E000C22D22 /* integration.cl */; };
 		7E43A8581981A4E000C22D22 /* IntegrationKernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A83C1981A4E000C22D22 /* IntegrationKernel.m */; };
 		7E43A8591981A4E000C22D22 /* Kernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A83E1981A4E000C22D22 /* Kernel.m */; };
@@ -29,9 +28,10 @@
 		7E43A8631981A4E000C22D22 /* SharedFloat4Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A84E1981A4E000C22D22 /* SharedFloat4Data.m */; };
 		7E43A8641981A4E000C22D22 /* SharedIntData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8501981A4E000C22D22 /* SharedIntData.m */; };
 		7E43A8651981A4E000C22D22 /* test.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8511981A4E000C22D22 /* test.cl */; };
-		7E43A8661981A4E000C22D22 /* vertex.vs in Resources */ = {isa = PBXBuildFile; fileRef = 7E43A8521981A4E000C22D22 /* vertex.vs */; };
 		7E43A8681981A4F700C22D22 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E43A8671981A4F700C22D22 /* OpenGL.framework */; };
 		7E43A86A1981A4FA00C22D22 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E43A8691981A4FA00C22D22 /* OpenCL.framework */; };
+		7E9EF3021988CD0000B14DF2 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9EF3011988CD0000B14DF2 /* GLKit.framework */; };
+		7E9EF30519894F2200B14DF2 /* SimulationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EF30419894F2200B14DF2 /* SimulationView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +57,6 @@
 		7E43A8361981A4E000C22D22 /* applyO2.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = applyO2.cl; sourceTree = "<group>"; };
 		7E43A8371981A4E000C22D22 /* ApplyO2Kernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyO2Kernel.h; sourceTree = "<group>"; };
 		7E43A8381981A4E000C22D22 /* ApplyO2Kernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplyO2Kernel.m; sourceTree = "<group>"; };
-		7E43A8391981A4E000C22D22 /* fragment.fs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fragment.fs; sourceTree = "<group>"; };
 		7E43A83A1981A4E000C22D22 /* integration.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = integration.cl; sourceTree = "<group>"; };
 		7E43A83B1981A4E000C22D22 /* IntegrationKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegrationKernel.h; sourceTree = "<group>"; };
 		7E43A83C1981A4E000C22D22 /* IntegrationKernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationKernel.m; sourceTree = "<group>"; };
@@ -82,9 +81,11 @@
 		7E43A84F1981A4E000C22D22 /* SharedIntData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedIntData.h; sourceTree = "<group>"; };
 		7E43A8501981A4E000C22D22 /* SharedIntData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedIntData.m; sourceTree = "<group>"; };
 		7E43A8511981A4E000C22D22 /* test.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = test.cl; sourceTree = "<group>"; };
-		7E43A8521981A4E000C22D22 /* vertex.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = vertex.vs; sourceTree = "<group>"; };
 		7E43A8671981A4F700C22D22 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7E43A8691981A4FA00C22D22 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
+		7E9EF3011988CD0000B14DF2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		7E9EF30319894F2200B14DF2 /* SimulationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimulationView.h; sourceTree = "<group>"; };
+		7E9EF30419894F2200B14DF2 /* SimulationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulationView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E9EF3021988CD0000B14DF2 /* GLKit.framework in Frameworks */,
 				7E43A86A1981A4FA00C22D22 /* OpenCL.framework in Frameworks */,
 				7E43A8681981A4F700C22D22 /* OpenGL.framework in Frameworks */,
 			);
@@ -110,6 +112,7 @@
 		7E43A8081981A48E00C22D22 = {
 			isa = PBXGroup;
 			children = (
+				7E9EF3011988CD0000B14DF2 /* GLKit.framework */,
 				7E43A8691981A4FA00C22D22 /* OpenCL.framework */,
 				7E43A8671981A4F700C22D22 /* OpenGL.framework */,
 				7E43A8131981A48E00C22D22 /* Simulate */,
@@ -173,8 +176,8 @@
 				7E43A8461981A4E000C22D22 /* OpenGLView.h */,
 				7E43A8471981A4E000C22D22 /* OpenGLView.m */,
 				7E43A8511981A4E000C22D22 /* test.cl */,
-				7E43A8391981A4E000C22D22 /* fragment.fs */,
-				7E43A8521981A4E000C22D22 /* vertex.vs */,
+				7E9EF30319894F2200B14DF2 /* SimulationView.h */,
+				7E9EF30419894F2200B14DF2 /* SimulationView.m */,
 			);
 			name = Cocoa;
 			sourceTree = "<group>";
@@ -184,8 +187,8 @@
 			children = (
 				7E43A8361981A4E000C22D22 /* applyO2.cl */,
 				7E43A83A1981A4E000C22D22 /* integration.cl */,
-				7E43A8411981A4E000C22D22 /* move.cl */,
 				7E43A84A1981A4E000C22D22 /* proliferation.cl */,
+				7E43A8411981A4E000C22D22 /* move.cl */,
 				7E43A8401981A4E000C22D22 /* make_image.cl */,
 				7E43A8371981A4E000C22D22 /* ApplyO2Kernel.h */,
 				7E43A8381981A4E000C22D22 /* ApplyO2Kernel.m */,
@@ -288,9 +291,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E43A8561981A4E000C22D22 /* fragment.fs in Resources */,
 				7E43A81C1981A48E00C22D22 /* Images.xcassets in Resources */,
-				7E43A8661981A4E000C22D22 /* vertex.vs in Resources */,
 				7E43A85A1981A4E000C22D22 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -326,6 +327,7 @@
 				7E43A8171981A48E00C22D22 /* main.m in Sources */,
 				7E43A8591981A4E000C22D22 /* Kernel.m in Sources */,
 				7E43A8581981A4E000C22D22 /* IntegrationKernel.m in Sources */,
+				7E9EF30519894F2200B14DF2 /* SimulationView.m in Sources */,
 				7E43A85D1981A4E000C22D22 /* MoveKernel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

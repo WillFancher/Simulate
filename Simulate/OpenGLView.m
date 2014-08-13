@@ -13,6 +13,7 @@
 
 #import <OpenGL/gl.h>
 #import <OpenGL/gl3.h>
+#import <GLKit/GLKit.h>
 
 #define NUM_ITERATIONS 140
 
@@ -81,6 +82,9 @@ static void checkCLError(cl_int err) {
     GLuint colors_vbo;
     GLuint shaderProgram;
     
+    CGPoint mouseLocation;
+    GLKBaseEffect *effect;
+    
     cl_context context;
     dispatch_queue_t cl_queue;
     cl_command_queue command_queue;
@@ -102,7 +106,44 @@ static void checkCLError(cl_int err) {
     [self clinit];
 }
 
+- (void)hey {
+    printf("Using OpenGL version: %s\n", glGetString(GL_VERSION));
+    int scale = 5;
+    int count = 0;
+    for (int x = -scale; x < scale; ++x) {
+        for (int y = -scale; y < scale; ++y) {
+            for (int z = -scale; z < scale; ++z) {
+                
+                
+                count++;
+            }
+        }
+    }
+}
+
 - (void)glinit {
+    effect = [[GLKBaseEffect alloc] init];
+//    effect.lightingType = GLKLightingTypePerPixel;
+//    
+//    // Turn on the first light
+//    effect.light0.enabled = GL_TRUE;
+//    effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
+//    effect.light0.position = GLKVector4Make(-5.f, -5.f, 10.f, 1.0f);
+//    effect.light0.specularColor = GLKVector4Make(1.0f, 0.0f, 0.0f, 1.0f);
+//    
+//    // Turn on the second light
+//    effect.light1.enabled = GL_TRUE;
+//    effect.light1.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
+//    effect.light1.position = GLKVector4Make(15.f, 15.f, 10.f, 1.0f);
+//    effect.light1.specularColor = GLKVector4Make(1.0f, 0.0f, 0.0f, 1.0f);
+//    
+//    // Set material
+//    effect.material.diffuseColor = GLKVector4Make(0.f, 0.5f, 1.0f, 1.0f);
+//    effect.material.ambientColor = GLKVector4Make(0.0f, 0.5f, 0.0f, 1.0f);
+//    effect.material.specularColor = GLKVector4Make(1.0f, 0.0f, 0.0f, 1.0f);
+//    effect.material.shininess = 20.0f;
+//    effect.material.emissiveColor = GLKVector4Make(0.2f, 0.f, 0.2f, 1.0f);
+    
     printf("Using OpenGL version: %s\n", glGetString(GL_VERSION));
     static GLfloat points[] = {
         0.0f,  0.5f,  0.0f,
@@ -210,9 +251,13 @@ static void checkCLError(cl_int err) {
     glClearColor(0, 0, .29, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
     
-    glUseProgram(shaderProgram);
+    float aspect = fabsf(self.bounds.size.width / self.bounds.size.height);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
+    effect.transform.projectionMatrix = projectionMatrix;
+    GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
+    effect.transform.modelviewMatrix = modelViewMatrix;
+    [effect prepareToDraw];
     
     glBindVertexArray(vao);
     glPointSize(5);
@@ -258,6 +303,11 @@ static void checkCLError(cl_int err) {
     // message when it needs to draw, and not to invoke it directly from the timer.
     // All we do here is tell the display it needs a refresh
     [self setNeedsDisplay:YES];
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent {
+    CGPoint oldLocation = mouseLocation;
+    mouseLocation = [theEvent locationInWindow];
 }
 
 @end
