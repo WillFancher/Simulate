@@ -21,7 +21,6 @@
 		7E43A85C1981A4E000C22D22 /* move.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8411981A4E000C22D22 /* move.cl */; };
 		7E43A85D1981A4E000C22D22 /* MoveKernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8431981A4E000C22D22 /* MoveKernel.m */; };
 		7E43A85E1981A4E000C22D22 /* OpenCLQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8451981A4E000C22D22 /* OpenCLQueue.m */; };
-		7E43A85F1981A4E000C22D22 /* OpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8471981A4E000C22D22 /* OpenGLView.m */; };
 		7E43A8601981A4E000C22D22 /* ProliferatingSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8491981A4E000C22D22 /* ProliferatingSystem.m */; };
 		7E43A8611981A4E000C22D22 /* proliferation.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A84A1981A4E000C22D22 /* proliferation.cl */; };
 		7E43A8621981A4E000C22D22 /* ProliferationKernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A84C1981A4E000C22D22 /* ProliferationKernel.m */; };
@@ -69,8 +68,6 @@
 		7E43A8431981A4E000C22D22 /* MoveKernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoveKernel.m; sourceTree = "<group>"; };
 		7E43A8441981A4E000C22D22 /* OpenCLQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCLQueue.h; sourceTree = "<group>"; };
 		7E43A8451981A4E000C22D22 /* OpenCLQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenCLQueue.m; sourceTree = "<group>"; };
-		7E43A8461981A4E000C22D22 /* OpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLView.h; sourceTree = "<group>"; };
-		7E43A8471981A4E000C22D22 /* OpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenGLView.m; sourceTree = "<group>"; };
 		7E43A8481981A4E000C22D22 /* ProliferatingSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProliferatingSystem.h; sourceTree = "<group>"; };
 		7E43A8491981A4E000C22D22 /* ProliferatingSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProliferatingSystem.m; sourceTree = "<group>"; };
 		7E43A84A1981A4E000C22D22 /* proliferation.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = proliferation.cl; sourceTree = "<group>"; };
@@ -173,8 +170,6 @@
 				7E43A8341981A4E000C22D22 /* AppDelegate.h */,
 				7E43A8351981A4E000C22D22 /* AppDelegate.m */,
 				7E43A83F1981A4E000C22D22 /* MainMenu.xib */,
-				7E43A8461981A4E000C22D22 /* OpenGLView.h */,
-				7E43A8471981A4E000C22D22 /* OpenGLView.m */,
 				7E43A8511981A4E000C22D22 /* test.cl */,
 				7E9EF30319894F2200B14DF2 /* SimulationView.h */,
 				7E9EF30419894F2200B14DF2 /* SimulationView.m */,
@@ -322,7 +317,6 @@
 				7E43A8551981A4E000C22D22 /* ApplyO2Kernel.m in Sources */,
 				7E43A8631981A4E000C22D22 /* SharedFloat4Data.m in Sources */,
 				7E43A8601981A4E000C22D22 /* ProliferatingSystem.m in Sources */,
-				7E43A85F1981A4E000C22D22 /* OpenGLView.m in Sources */,
 				7E43A8611981A4E000C22D22 /* proliferation.cl in Sources */,
 				7E43A8171981A48E00C22D22 /* main.m in Sources */,
 				7E43A8591981A4E000C22D22 /* Kernel.m in Sources */,
