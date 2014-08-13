@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "OpenGLView.h"
 #import "SimulationView.h"
 
 @interface AppDelegate ()
