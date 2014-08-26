@@ -74,4 +74,8 @@
     [system.cellData copyFromDevice:queue];
 }
 
+- (void)dealloc {
+    clReleaseKernel(kernel);
+}
+
 @end
