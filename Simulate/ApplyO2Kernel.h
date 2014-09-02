@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Kernel.h"
+#import "ChunkedKernel.h"
 
-@interface ApplyO2Kernel : NSObject <Kernel>
+@interface ApplyO2Kernel : NSObject <ChunkedKernel>
 
 @end

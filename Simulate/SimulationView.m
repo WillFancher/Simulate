@@ -9,9 +9,9 @@
 #import "SimulationView.h"
 #import "test.cl.h"
 #import "make_image.cl.h"
+#import "zero_image_alpha.cl.h"
 #import "OpenCLQueue.h"
-#import "ProliferatingSystem.h"
-#import "Kernel.h"
+#import "ChunkedProliferatingSystem.h"
 @import GLKit;
 @import OpenGL;
 @import OpenCL;
@@ -38,11 +38,12 @@
     GLuint sources_colors_vbo;
     
     cl_kernel make_image_cl_kernel;
+    cl_kernel zero_image_cl_kernel;
     cl_mem cl_colors;
     cl_mem cl_points;
     
     OpenCLQueue *queue;
-    ProliferatingSystem *system;
+    ChunkedProliferatingSystem *system;
     int iteration;
     NSTimer *clTimer;
 }
@@ -58,7 +59,7 @@
     printf("\nUsing device:\n\n");
     [queue printDeviceInfo];
     printf("\n\n");
-    system = [[ProliferatingSystem alloc] init];
+    system = [[ChunkedProliferatingSystem alloc] init];
     
     start = [NSDate date];
     [self setupTimer];
@@ -234,37 +235,51 @@
     cl_points = clCreateFromGLBuffer(queue.context, CL_MEM_READ_WRITE, points_vbo, &err);
     checkCLError(err);
     make_image_cl_kernel = gcl_create_kernel_from_block((__bridge void *)(make_image_kernel));
+    zero_image_cl_kernel = gcl_create_kernel_from_block((__bridge void *)(zero_image_alpha_kernel));
     checkCLError(clFinish(queue.command_queue));
 }
 
 - (void)cl_execute:(id)sender {
-    if (iteration >= NUM_ITERATIONS) {
-        [clTimer invalidate];
-        return;
-    }
-    printf("%d:\t%d\tliving cells\n", iteration, [system livingCells]);
-    [system stepWithQueue:queue];
-    
-    checkCLError(clEnqueueAcquireGLObjects(queue.command_queue, 1, &cl_colors, 0, NULL, NULL));
-    
-    cl_mem cellData = gcl_create_buffer_from_ptr(system.cellData.deviceData);
-    cl_int numCells = system.cellData.length;
-    
-    checkCLError(clSetKernelArg(make_image_cl_kernel, 0, sizeof(cl_mem), &cellData));
-    checkCLError(clSetKernelArg(make_image_cl_kernel, 1, sizeof(cl_int), &numCells));
-    checkCLError(clSetKernelArg(make_image_cl_kernel, 2, sizeof(cl_mem), &cl_points));
-    checkCLError(clSetKernelArg(make_image_cl_kernel, 3, sizeof(cl_mem), &cl_colors));
-    checkCLError(clSetKernelArg(make_image_cl_kernel, 4, sizeof(cl_float), &pointRadius));
-    
-    size_t global_size = numGLPoints;
-    checkCLError(clEnqueueNDRangeKernel(queue.command_queue, make_image_cl_kernel, 1, NULL, &global_size, NULL, 0, NULL, NULL));
-    
-    checkCLError(clEnqueueReleaseGLObjects(queue.command_queue, 1, &cl_colors, 0, NULL, NULL));
-    checkCLError(clReleaseMemObject(cellData));
-    checkCLError(clFinish(queue.command_queue));
-    
-    ++iteration;
-    [self setNeedsDisplay:YES];
+    [queue dispatchAsynchronous:^{
+        if (iteration >= NUM_ITERATIONS) {
+            [clTimer invalidate];
+            return;
+        }
+        printf("%d:\t%d\tliving cells\t%lu\tchunks\n", iteration, [system livingCells], (unsigned long)system.cellData.count);
+        [system stepWithQueue:queue];
+        
+        checkCLError(clEnqueueAcquireGLObjects(queue.command_queue, 1, &cl_points, 0, NULL, NULL));
+        checkCLError(clEnqueueAcquireGLObjects(queue.command_queue, 1, &cl_colors, 0, NULL, NULL));
+        
+        checkCLError(clSetKernelArg(zero_image_cl_kernel, 0, sizeof(cl_colors), &cl_colors));
+        size_t zeroAlphaGlobalSize = numGLPoints;
+        checkCLError(clEnqueueNDRangeKernel(queue.command_queue, zero_image_cl_kernel, 1, NULL, &zeroAlphaGlobalSize, NULL, 0, NULL, NULL));
+        checkCLError(clFinish(queue.command_queue));
+        
+        for (SharedFloat4Data *chunk in system.cellData) {
+            cl_mem chunkMem = gcl_create_buffer_from_ptr(chunk.deviceData);
+            cl_int numCells = chunk.length;
+            
+            checkCLError(clSetKernelArg(make_image_cl_kernel, 0, sizeof(chunkMem), &chunkMem));
+            checkCLError(clSetKernelArg(make_image_cl_kernel, 1, sizeof(numCells), &numCells));
+            checkCLError(clSetKernelArg(make_image_cl_kernel, 2, sizeof(cl_points), &cl_points));
+            checkCLError(clSetKernelArg(make_image_cl_kernel, 3, sizeof(cl_colors), &cl_colors));
+            checkCLError(clSetKernelArg(make_image_cl_kernel, 4, sizeof(pointRadius), &pointRadius));
+            
+            size_t global_size = numGLPoints;
+            checkCLError(clEnqueueNDRangeKernel(queue.command_queue, make_image_cl_kernel, 1, NULL, &global_size, NULL, 0, NULL, NULL));
+            
+            checkCLError(clReleaseMemObject(chunkMem));
+            checkCLError(clFinish(queue.command_queue));
+        }
+        
+        checkCLError(clEnqueueReleaseGLObjects(queue.command_queue, 1, &cl_points, 0, NULL, NULL));
+        checkCLError(clEnqueueReleaseGLObjects(queue.command_queue, 1, &cl_colors, 0, NULL, NULL));
+        checkCLError(clFinish(queue.command_queue));
+        
+        ++iteration;
+        [self setNeedsDisplay:YES];
+    }];
 }
 
 @end

@@ -14,12 +14,12 @@ __kernel void make_image(__global float4 *cellData,
     position.z = z;
     int nearbyCells = 0;
     for (int i = 0; i < numCells; ++i) {
-        if (all(fabs(position - cellData[i].xyz) <= scale)) {
+        if (all(fabs(position - cellData[i].xyz) <= scale) && cellData[i].w != 0) {
             ++nearbyCells;
         }
     }
     float val = nearbyCells / pow(scale * 2, 3);
     val = val > 1 ? 1 : val < 0 ? 0 : val;
 //    val = val > 0 ? 1 : 0;
-    colorData[gti * 4 + 3] = val;
+    colorData[gti * 4 + 3] += val;
 }

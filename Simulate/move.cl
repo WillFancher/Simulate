@@ -1,8 +1,13 @@
 __kernel void move(int numIterations, int numCells,
-                   __global float4 *cellData,
-                   __global float4 *outData) {
+                   __global float4 *outData,
+                   __global float4 *cellData) {
     int gti = get_global_id(0);
-    float3 thisPoint = cellData[gti].xyz;
+    
+    if (outData[gti].w == 0) {
+        return;
+    }
+    
+    float3 thisPoint = outData[gti].xyz;
     float3 vec = 0;
     for (int i = 0; i < numCells; ++i) if (i != gti) {
         float3 cellPoint = cellData[i].xyz;
@@ -15,6 +20,6 @@ __kernel void move(int numIterations, int numCells,
     thisPoint += vec;
     float4 outCell;
     outCell.xyz = thisPoint.xyz;
-    outCell.w = cellData[gti].w;
+    outCell.w = outData[gti].w;
     outData[gti] = outCell;
 }

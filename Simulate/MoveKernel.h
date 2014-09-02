@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Kernel.h"
+#import "ChunkedKernel.h"
 
-@interface MoveKernel : NSObject <Kernel>
+@interface MoveKernel : NSObject <ChunkedKernel>
 
 @end

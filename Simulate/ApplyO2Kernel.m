@@ -25,24 +25,24 @@
     return self;
 }
 
-- (void)runKernelInSystem:(ProliferatingSystem *)system queue:(OpenCLQueue *)queue {
-    cl_mem cellMem = gcl_create_buffer_from_ptr(system.cellData.deviceData);
-    cl_mem integratorMem = gcl_create_buffer_from_ptr(system.integratorData.deviceData);
+- (void)runKernelInSystem:(ChunkedProliferatingSystem *)system queue:(OpenCLQueue *)queue {
     cl_mem sourceMem = gcl_create_buffer_from_ptr(system.sourceData.deviceData);
-    cl_int numSources = system.sourceData.length;
-    cl_float threshold = 15;
-    
-    checkCLError(clSetKernelArg(kernel, 0, sizeof(threshold), &threshold));
-    checkCLError(clSetKernelArg(kernel, 1, sizeof(cellMem), &cellMem));
-    checkCLError(clSetKernelArg(kernel, 2, sizeof(integratorMem), &integratorMem));
-    checkCLError(clSetKernelArg(kernel, 3, sizeof(numSources), &numSources));
-    checkCLError(clSetKernelArg(kernel, 4, sizeof(sourceMem), &sourceMem));
-    
-    size_t globalSize = system.cellData.length;
-    checkCLError(clEnqueueNDRangeKernel(queue.command_queue, kernel, 1, NULL, &globalSize, NULL, 0, NULL, NULL));
-    
-    checkCLError(clReleaseMemObject(cellMem));
-    checkCLError(clReleaseMemObject(integratorMem));
+    for (SharedFloat4Data *chunk in system.cellData) {
+        cl_mem cellMem = gcl_create_buffer_from_ptr(chunk.deviceData);
+        cl_int numSources = system.sourceData.length;
+        cl_float threshold = 15;
+        
+        checkCLError(clSetKernelArg(kernel, 0, sizeof(threshold), &threshold));
+        checkCLError(clSetKernelArg(kernel, 1, sizeof(cellMem), &cellMem));
+        checkCLError(clSetKernelArg(kernel, 2, sizeof(numSources), &numSources));
+        checkCLError(clSetKernelArg(kernel, 3, sizeof(sourceMem), &sourceMem));
+        
+        size_t globalSize = chunk.length;
+        checkCLError(clEnqueueNDRangeKernel(queue.command_queue, kernel, 1, NULL, &globalSize, NULL, 0, NULL, NULL));
+        
+        checkCLError(clReleaseMemObject(cellMem));
+        checkCLError(clFinish(queue.command_queue));
+    }
     checkCLError(clReleaseMemObject(sourceMem));
     checkCLError(clFinish(queue.command_queue));
 }

@@ -28,50 +28,46 @@
     return self;
 }
 
-- (void)runKernelInSystem:(ProliferatingSystem *)system queue:(OpenCLQueue *)queue {
-    __block SharedFloat4Data *outBuffer = [[SharedFloat4Data alloc] initWithLength:system.cellData.length];
-//    [queue dispatchSynchronous:^{
-//        [system.cellData copyFromHost:queue];
-//        
-//        cl_ndrange range = makeRangeForKernel((__bridge void *)(move_kernel), outBuffer.length);
-//        for (int i = 0; i < MOVEMENT_ITERATIONS; ++i) {
-//            if (outBuffer.length > 0) {
-//                move_kernel(&range, MOVEMENT_ITERATIONS, outBuffer.length, system.cellData.deviceData, outBuffer.deviceData);
-//                SharedFloat4Data *inBuffer = system.cellData;
-//                system.cellData = outBuffer;
-//                outBuffer = inBuffer;
-//            }
-//        }
-//        [system.cellData copyFromDevice:queue];
-//    }];
-    [system.cellData copyFromHost:queue];
+- (void)runKernelInSystem:(ChunkedProliferatingSystem *)system queue:(OpenCLQueue *)queue {
+    NSMutableArray *newChunks = [NSMutableArray array];
     
-    for (int i = 0; i < MOVEMENT_ITERATIONS; ++i) {
-        if (outBuffer.length > 0) {
-            cl_int numIterations = MOVEMENT_ITERATIONS;
-            cl_int numCells = outBuffer.length;
-            cl_mem cellMem = gcl_create_buffer_from_ptr(system.cellData.deviceData);
-            cl_mem outMem = gcl_create_buffer_from_ptr(outBuffer.deviceData);
-            
-            checkCLError(clSetKernelArg(kernel, 0, sizeof(numIterations), &numIterations));
-            checkCLError(clSetKernelArg(kernel, 1, sizeof(numCells), &numCells));
-            checkCLError(clSetKernelArg(kernel, 2, sizeof(cellMem), &cellMem));
-            checkCLError(clSetKernelArg(kernel, 3, sizeof(outMem), &outMem));
-            
-            size_t globalSize = outBuffer.length;
-            checkCLError(clEnqueueNDRangeKernel(queue.command_queue, kernel, 1, NULL, &globalSize, NULL, 0, NULL, NULL));
-            
-            checkCLError(clReleaseMemObject(cellMem));
-            checkCLError(clReleaseMemObject(outMem));
-            checkCLError(clFinish(queue.command_queue));
-            
-            SharedFloat4Data *inBuffer = system.cellData;
-            system.cellData = outBuffer;
-            outBuffer = inBuffer;
+    for (SharedFloat4Data *chunk in system.cellData) {
+        SharedFloat4Data *outBuffer = [[SharedFloat4Data alloc] initWithLength:chunk.length];
+        
+        cl_mem outMem = gcl_create_buffer_from_ptr(outBuffer.deviceData);
+        
+        // Make sure outMem is a duplicate of original chunk
+        [chunk copyFromDevice:queue];
+        checkCLError(clEnqueueWriteBuffer(queue.command_queue, outMem, CL_TRUE, 0, chunk.length * sizeof(cl_float4), chunk.hostData, 0, NULL, NULL));
+        
+        for (int i = 0; i < MOVEMENT_ITERATIONS; ++i) {
+            for (SharedFloat4Data *otherChunk in system.cellData) {
+                cl_int numIterations = MOVEMENT_ITERATIONS;
+                cl_int numCells = otherChunk.length;
+                cl_mem cellMem = gcl_create_buffer_from_ptr(otherChunk.deviceData);
+                
+                checkCLError(clSetKernelArg(kernel, 0, sizeof(numIterations), &numIterations));
+                checkCLError(clSetKernelArg(kernel, 1, sizeof(numCells), &numCells));
+                checkCLError(clSetKernelArg(kernel, 2, sizeof(outMem), &outMem));
+                checkCLError(clSetKernelArg(kernel, 3, sizeof(cellMem), &cellMem));
+                
+                size_t globalSize = outBuffer.length;
+                checkCLError(clEnqueueNDRangeKernel(queue.command_queue, kernel, 1, NULL, &globalSize, NULL, 0, NULL, NULL));
+                
+                checkCLError(clReleaseMemObject(cellMem));
+                checkCLError(clFinish(queue.command_queue));
+            }
         }
+        
+        checkCLError(clReleaseMemObject(outMem));
+        checkCLError(clFinish(queue.command_queue));
+        [newChunks addObject:outBuffer];
     }
     
-    [system.cellData copyFromDevice:queue];
+    for (int i = 0; i < newChunks.count; ++i) {
+        [newChunks[i] copyFromDevice:queue];
+        system.cellData[i] = newChunks[i];
+    }
 }
 
 - (void)dealloc {

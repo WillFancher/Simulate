@@ -1,13 +1,16 @@
 __kernel void applyO2(float o2Threshold,
                       __global float4 *cells,
-                      __global int *integratorData,
                       int numSources,
                       __global float4 *o2Sources)
 {
     int gti = get_global_id(0);
     
-    // applyO2 is the first integrator part run
-    // Otherwise we'd set val to data[gti]
+    int cellStatus = cells[gti].w;
+    
+    if (cellStatus == 0) {
+        return;
+    }
+    
     int val = 0;
     float3 thisPoint = cells[gti].xyz;
     
@@ -21,5 +24,13 @@ __kernel void applyO2(float o2Threshold,
     }
     
     val += shouldAdd ? 1 : -1;
-    integratorData[gti] = val;
+    
+    
+    // Integrate
+    if (cellStatus < 2 && val > 0) {
+        cellStatus++;
+    } else if (cellStatus > 0 && val < 0) {
+        cellStatus--;
+    }
+    cells[gti].w = cellStatus;
 }

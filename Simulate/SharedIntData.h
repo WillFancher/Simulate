@@ -6,9 +6,8 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "OpenCLQueue.h"
-@import OpenCL;
+#import <OpenCL/opencl.h>
 
 @interface SharedIntData : NSObject
 

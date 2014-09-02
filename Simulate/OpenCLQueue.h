@@ -6,11 +6,9 @@
 //
 //
 
-@import Foundation;
-@import OpenCL;
-@import OpenGL;
-
-void checkCLError(cl_int err);
+#import <OpenCL/opencl.h>
+#import <OpenGL/OpenGL.h>
+#import "checkCLError.h"
 
 /*
  OpenCLQueue is a class used to get a queue ready for running OpenCL kernels
@@ -33,5 +31,6 @@ void checkCLError(cl_int err);
 
 // Dispatch a block on a queue capable of running opencl commands for the device
 - (void)dispatchSynchronous:(void(^)()) kernel;
+- (void)dispatchAsynchronous:(void(^)()) kernel;
 
 @end
