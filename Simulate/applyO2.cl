@@ -1,4 +1,5 @@
-__kernel void applyO2(float o2Threshold,
+__kernel void applyO2(float upperThreshold,
+                      float lowerThreshold,
                       __global float4 *cells,
                       int numSources,
                       __global float4 *o2Sources)
@@ -14,16 +15,21 @@ __kernel void applyO2(float o2Threshold,
     int val = 0;
     float3 thisPoint = cells[gti].xyz;
     
-    int shouldAdd = 0;
+    int adder = -1;
     
     for (int i = 0; i < numSources; ++i) {
         float3 sourcePoint = o2Sources[i].xyz;
         float dist = distance(thisPoint, sourcePoint);
         float intensity = o2Sources[i].w / (dist + 1);
-        shouldAdd = shouldAdd || intensity >= o2Threshold;
+        if (intensity >= lowerThreshold && intensity < upperThreshold && adder < 0) {
+            adder = 0;
+        } else if (intensity >= upperThreshold) {
+            adder = 1;
+            break; // can't get better than that
+        }
     }
     
-    val += shouldAdd ? 1 : -1;
+    val += adder;
     
     
     // Integrate

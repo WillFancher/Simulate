@@ -26,24 +26,25 @@
 }
 
 - (void)runKernelInSystem:(ChunkedProliferatingSystem *)system queue:(OpenCLQueue *)queue {
-    cl_mem sourceMem = gcl_create_buffer_from_ptr(system.sourceData.deviceData);
+    cl_mem sourceMem = system.sourceData.deviceData;
     for (SharedFloat4Data *chunk in system.cellData) {
-        cl_mem cellMem = gcl_create_buffer_from_ptr(chunk.deviceData);
+        cl_mem cellMem = chunk.deviceData;
         cl_int numSources = system.sourceData.length;
-        cl_float threshold = 15;
+        cl_float upperThreshold = 15;
+        cl_float lowerThreshold = 10;
         
-        checkCLError(clSetKernelArg(kernel, 0, sizeof(threshold), &threshold));
-        checkCLError(clSetKernelArg(kernel, 1, sizeof(cellMem), &cellMem));
-        checkCLError(clSetKernelArg(kernel, 2, sizeof(numSources), &numSources));
-        checkCLError(clSetKernelArg(kernel, 3, sizeof(sourceMem), &sourceMem));
+        int arg = 0;
+        checkCLError(clSetKernelArg(kernel, arg++, sizeof(upperThreshold), &upperThreshold));
+        checkCLError(clSetKernelArg(kernel, arg++, sizeof(lowerThreshold), &lowerThreshold));
+        checkCLError(clSetKernelArg(kernel, arg++, sizeof(cellMem), &cellMem));
+        checkCLError(clSetKernelArg(kernel, arg++, sizeof(numSources), &numSources));
+        checkCLError(clSetKernelArg(kernel, arg++, sizeof(sourceMem), &sourceMem));
         
         size_t globalSize = chunk.length;
         checkCLError(clEnqueueNDRangeKernel(queue.command_queue, kernel, 1, NULL, &globalSize, NULL, 0, NULL, NULL));
         
-        checkCLError(clReleaseMemObject(cellMem));
         checkCLError(clFinish(queue.command_queue));
     }
-    checkCLError(clReleaseMemObject(sourceMem));
     checkCLError(clFinish(queue.command_queue));
 }
 

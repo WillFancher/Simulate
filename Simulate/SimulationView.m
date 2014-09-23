@@ -7,20 +7,18 @@
 //
 
 #import "SimulationView.h"
-#import "test.cl.h"
 #import "make_image.cl.h"
 #import "zero_image_alpha.cl.h"
 #import "OpenCLQueue.h"
 #import "ChunkedProliferatingSystem.h"
 @import GLKit;
-@import OpenGL;
+@import GLUT;
 @import OpenCL;
 
 #define NUM_ITERATIONS 75
 
 @interface SimulationView () {
     GLKBaseEffect *effect;
-    NSDate *start;
     float xrot, yrot;
     CGPoint mousePos;
     
@@ -33,10 +31,6 @@
     GLuint points_vbo;
     GLuint colors_vbo;
     
-    GLuint sources_vao;
-    GLuint sources_points_vbo;
-    GLuint sources_colors_vbo;
-    
     cl_kernel make_image_cl_kernel;
     cl_kernel zero_image_cl_kernel;
     cl_mem cl_colors;
@@ -44,39 +38,37 @@
     
     OpenCLQueue *queue;
     ChunkedProliferatingSystem *system;
-    int iteration;
-    NSTimer *clTimer;
+    
+    NSLock *lock;
+    BOOL glInitialized;
 }
 
 @end
 
 @implementation SimulationView
 
+- (void)awakeFromNib {
+    lock = [[NSLock alloc] init];
+    glInitialized = NO;
+}
+
 - (void)prepareOpenGL {
-    iteration = 0;
     queue = [[OpenCLQueue alloc] initWithCGLContext:self.openGLContext.CGLContextObj];
     [queue printAvailableDevices];
     printf("\nUsing device:\n\n");
     [queue printDeviceInfo];
     printf("\n\n");
-    system = [[ChunkedProliferatingSystem alloc] init];
+    system = [[ChunkedProliferatingSystem alloc] initWithQueue:queue];
     
-    start = [NSDate date];
-    [self setupTimer];
     [self glinit];
     [self clinit];
 }
 
-- (void)setupTimer {
-    clTimer = [NSTimer timerWithTimeInterval:0.001   //a 1ms time interval
-                                      target:self
-                                    selector:@selector(cl_execute:)
-                                    userInfo:nil
-                                     repeats:YES];
-    
-    [[NSRunLoop currentRunLoop] addTimer:clTimer
-                                 forMode:NSDefaultRunLoopMode];
-    
+- (void)gl_time:(id)sender {
+    [self setNeedsDisplay:YES];
+}
+
+- (void)glinit {
     glTimer = [NSTimer timerWithTimeInterval:0.001
                                       target:self
                                     selector:@selector(gl_time:)
@@ -86,13 +78,7 @@
                                  forMode:NSDefaultRunLoopMode];
     [[NSRunLoop currentRunLoop] addTimer:glTimer
                                  forMode:NSEventTrackingRunLoopMode];
-}
-
-- (void)gl_time:(id)sender {
-    [self setNeedsDisplay:YES];
-}
-
-- (void)glinit {
+    
     [self.openGLContext makeCurrentContext];
     printf("Using OpenGL version: %s\n", glGetString(GL_VERSION));
     xrot = 0;
@@ -102,13 +88,15 @@
     effect = [[GLKBaseEffect alloc] init];
     
     
-    pointRadius = 5;
+    pointRadius = 2;
     totalRadius = 100;
     int count = 0;
     numGLPoints = ceil(pow(1 + 2 * totalRadius / (pointRadius * 2), 3));
     
-    GLfloat points[numGLPoints * 3];
-    GLfloat colors[numGLPoints * 4];
+//    GLfloat points[numGLPoints * 3];
+    GLfloat *points = malloc(numGLPoints * 3 * sizeof(GLfloat));
+//    GLfloat colors[numGLPoints * 4];
+    GLfloat *colors = malloc(numGLPoints * 4 * sizeof(GLfloat));
     
     for (int x = -totalRadius; x <= totalRadius; x += pointRadius * 2) {
         for (int y = -totalRadius; y <= totalRadius; y += pointRadius * 2) {
@@ -132,21 +120,72 @@
     
     glGenBuffers(1, &points_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, points_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, numGLPoints * 3 * sizeof(GLfloat), points, GL_STATIC_DRAW);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(GLKVertexAttribPosition);
     
     glGenBuffers(1, &colors_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, colors_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, numGLPoints * 4 * sizeof(GLfloat), colors, GL_STATIC_DRAW);
     glVertexAttribPointer(GLKVertexAttribColor, 4, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(GLKVertexAttribColor);
     
+    glFinish();
     
+    free(points);
+    free(colors);
+    glInitialized = YES;
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    if (!glInitialized) {
+        return;
+    }
     
+    @synchronized(lock) {
+        [self.openGLContext makeCurrentContext];
+        
+        glEnable(GL_BLEND);
+        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
+        
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+        
+        glClearColor(.5, .5, 1, 1);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        //    float aspect = fabsf(self.bounds.size.width / self.bounds.size.height);
+        //    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(0, aspect, -1, 1);
+        //    effect.transform.projectionMatrix = projectionMatrix;
+        
+        GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
+        modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 0.5 / totalRadius, 0.5 / totalRadius, 0.5 / totalRadius);
+        modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, xrot, 0, 1, 0);
+        modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, yrot, 1, 0, 0);
+        effect.transform.modelviewMatrix = modelViewMatrix;
+        [effect prepareToDraw];
+        
+        glBindVertexArray(vao);
+        glPointSize(pointRadius);
+        glDrawArrays(GL_POINTS, 0, numGLPoints);
+        
+        [self renderSources];
+        
+        if (glGetError()) {
+            printf("GLError: %s\n", gluErrorString(glGetError()));
+        }
+    }
+}
+
+- (void)renderSources {
+    GLuint sources_vao;
+    GLuint sources_points_vbo;
+    GLuint sources_colors_vbo;
     
-    GLfloat sources_points[system.sourceData.length * 3];
-    GLfloat sources_colors[system.sourceData.length * 4];
+    size_t pointSize = system.sourceData.length * 3 * sizeof(GLfloat);
+    GLfloat *sources_points = malloc(pointSize);
+    size_t colorSize = system.sourceData.length * 4 * sizeof(GLfloat);
+    GLfloat *sources_colors = malloc(colorSize);
     for (int i = 0; i < system.sourceData.length; ++i) {
         sources_points[i * 3 + 0] = system.sourceData.hostData[i].x;
         sources_points[i * 3 + 1] = system.sourceData.hostData[i].y;
@@ -163,49 +202,24 @@
     
     glGenBuffers(1, &sources_points_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, sources_points_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(sources_points), sources_points, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, pointSize, sources_points, GL_STATIC_DRAW);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(GLKVertexAttribPosition);
     
     glGenBuffers(1, &sources_colors_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, sources_colors_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(sources_colors), sources_colors, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, colorSize, sources_colors, GL_STATIC_DRAW);
     glVertexAttribPointer(GLKVertexAttribColor, 4, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(GLKVertexAttribColor);
     
-    glFinish();
-}
-
-- (void)drawRect:(NSRect)dirtyRect {
-    glEnable(GL_BLEND);
-    glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
-    
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    
-    glClearColor(.5, .5, 1, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-//    float aspect = fabsf(self.bounds.size.width / self.bounds.size.height);
-//    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(0, aspect, -1, 1);
-//    effect.transform.projectionMatrix = projectionMatrix;
-    
-    GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 0.5 / totalRadius, 0.5 / totalRadius, 0.5 / totalRadius);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, xrot, 0, 1, 0);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, yrot, 1, 0, 0);
-    effect.transform.modelviewMatrix = modelViewMatrix;
-    [effect prepareToDraw];
-    
-    glBindVertexArray(vao);
-    glPointSize(5);
-    glDrawArrays(GL_POINTS, 0, numGLPoints);
-    
     glBindVertexArray(sources_vao);
     glDisable(GL_DEPTH_TEST);
-//    glDrawArrays(GL_POINTS, 0, system.sourceData.length);
+    glDrawArrays(GL_POINTS, 0, system.sourceData.length);
     
     glFinish();
+    
+    free(sources_points);
+    free(sources_colors);
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
@@ -237,17 +251,24 @@
     make_image_cl_kernel = gcl_create_kernel_from_block((__bridge void *)(make_image_kernel));
     zero_image_cl_kernel = gcl_create_kernel_from_block((__bridge void *)(zero_image_alpha_kernel));
     checkCLError(clFinish(queue.command_queue));
+    
+    [queue dispatchAsynchronous:^{
+        for (int i = 0; i < NUM_ITERATIONS; ++i) {
+            printf("%d:\t%d\tliving cells\t%lu\tchunks\n\t%d\tsources\t%d\tbranches\n",
+                   i,
+                   [system livingCells],
+                   (unsigned long)system.cellData.count,
+                   system.sourceData.length,
+                   (int)system.sourceBranches.count);
+            [self cl_execute];
+        }
+    }];
 }
 
-- (void)cl_execute:(id)sender {
-    [queue dispatchAsynchronous:^{
-        if (iteration >= NUM_ITERATIONS) {
-            [clTimer invalidate];
-            return;
-        }
-        printf("%d:\t%d\tliving cells\t%lu\tchunks\n", iteration, [system livingCells], (unsigned long)system.cellData.count);
-        [system stepWithQueue:queue];
-        
+- (void)cl_execute {
+    [system step];
+    
+    @synchronized(lock) {
         checkCLError(clEnqueueAcquireGLObjects(queue.command_queue, 1, &cl_points, 0, NULL, NULL));
         checkCLError(clEnqueueAcquireGLObjects(queue.command_queue, 1, &cl_colors, 0, NULL, NULL));
         
@@ -257,7 +278,7 @@
         checkCLError(clFinish(queue.command_queue));
         
         for (SharedFloat4Data *chunk in system.cellData) {
-            cl_mem chunkMem = gcl_create_buffer_from_ptr(chunk.deviceData);
+            cl_mem chunkMem = chunk.deviceData;
             cl_int numCells = chunk.length;
             
             checkCLError(clSetKernelArg(make_image_cl_kernel, 0, sizeof(chunkMem), &chunkMem));
@@ -269,17 +290,13 @@
             size_t global_size = numGLPoints;
             checkCLError(clEnqueueNDRangeKernel(queue.command_queue, make_image_cl_kernel, 1, NULL, &global_size, NULL, 0, NULL, NULL));
             
-            checkCLError(clReleaseMemObject(chunkMem));
             checkCLError(clFinish(queue.command_queue));
         }
         
         checkCLError(clEnqueueReleaseGLObjects(queue.command_queue, 1, &cl_points, 0, NULL, NULL));
         checkCLError(clEnqueueReleaseGLObjects(queue.command_queue, 1, &cl_colors, 0, NULL, NULL));
         checkCLError(clFinish(queue.command_queue));
-        
-        ++iteration;
-        [self setNeedsDisplay:YES];
-    }];
+    }
 }
 
 @end

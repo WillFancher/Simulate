@@ -12,11 +12,11 @@
 @interface SharedFloat4Data : NSObject
 
 @property cl_float4 *hostData;
-@property void *deviceData;
+@property cl_mem deviceData;
 @property(readonly) int length;
 
-- (instancetype)initWithLength:(int)length;
-- (instancetype)initWithHostPointer:(cl_float4*)hostData length:(int)length;
+- (instancetype)initWithLength:(int)length queue:(OpenCLQueue*)queue;
+- (instancetype)initWithHostPointer:(cl_float4*)hostData length:(int)length queue:(OpenCLQueue*)queue;
 - (void)copyFromHost:(OpenCLQueue *)queue;
 - (void)copyFromDevice:(OpenCLQueue *)queue;
 

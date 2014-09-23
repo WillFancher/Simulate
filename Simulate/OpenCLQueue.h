@@ -30,7 +30,7 @@
 - (void)printDeviceInfo;
 
 // Dispatch a block on a queue capable of running opencl commands for the device
-- (void)dispatchSynchronous:(void(^)()) kernel;
-- (void)dispatchAsynchronous:(void(^)()) kernel;
+- (void)dispatchSynchronous:(dispatch_block_t) kernel;
+- (void)dispatchAsynchronous:(dispatch_block_t) kernel;
 
 @end

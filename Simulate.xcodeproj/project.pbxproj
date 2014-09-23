@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E02944C19D1DDA800AE87E7 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E02944B19D1DDA800AE87E7 /* GLUT.framework */; };
+		7E0DDBCE19C0D267004E2803 /* SourceBranch.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0DDBCD19C0D267004E2803 /* SourceBranch.m */; };
+		7E0DDBD119C0D47B004E2803 /* SourceProliferationKernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0DDBD019C0D47B004E2803 /* SourceProliferationKernel.m */; };
 		7E43A8171981A48E00C22D22 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8161981A48E00C22D22 /* main.m */; };
 		7E43A81C1981A48E00C22D22 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E43A81B1981A48E00C22D22 /* Images.xcassets */; };
 		7E43A82B1981A48E00C22D22 /* SimulateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A82A1981A48E00C22D22 /* SimulateTests.m */; };
@@ -18,16 +21,15 @@
 		7E43A85C1981A4E000C22D22 /* move.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8411981A4E000C22D22 /* move.cl */; };
 		7E43A85D1981A4E000C22D22 /* MoveKernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8431981A4E000C22D22 /* MoveKernel.m */; };
 		7E43A85E1981A4E000C22D22 /* OpenCLQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8451981A4E000C22D22 /* OpenCLQueue.m */; };
-		7E43A8611981A4E000C22D22 /* proliferation.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A84A1981A4E000C22D22 /* proliferation.cl */; };
 		7E43A8621981A4E000C22D22 /* ProliferationKernel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A84C1981A4E000C22D22 /* ProliferationKernel.m */; };
 		7E43A8631981A4E000C22D22 /* SharedFloat4Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A84E1981A4E000C22D22 /* SharedFloat4Data.m */; };
-		7E43A8641981A4E000C22D22 /* SharedIntData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E43A8501981A4E000C22D22 /* SharedIntData.m */; };
 		7E43A8681981A4F700C22D22 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E43A8671981A4F700C22D22 /* OpenGL.framework */; };
 		7E43A86A1981A4FA00C22D22 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E43A8691981A4FA00C22D22 /* OpenCL.framework */; };
 		7E6144F819ACF4CD00D5CFF5 /* checkCLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6144F719ACF4CD00D5CFF5 /* checkCLError.m */; };
 		7E9EB35419ACE31800B14101 /* ChunkedProliferatingSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EB35319ACE31800B14101 /* ChunkedProliferatingSystem.m */; };
 		7E9EF3021988CD0000B14DF2 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9EF3011988CD0000B14DF2 /* GLKit.framework */; };
 		7E9EF30519894F2200B14DF2 /* SimulationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EF30419894F2200B14DF2 /* SimulationView.m */; };
+		7EF349AF19CC213F0003936A /* source_move.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7EF349AD19CC213F0003936A /* source_move.cl */; };
 		7EF7455119B5F7A500488E99 /* zero_image_alpha.cl in Sources */ = {isa = PBXBuildFile; fileRef = 7EF7455019B5F7A500488E99 /* zero_image_alpha.cl */; };
 /* End PBXBuildFile section */
 
@@ -42,10 +44,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7E02944B19D1DDA800AE87E7 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		7E0DDBCC19C0D267004E2803 /* SourceBranch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceBranch.h; sourceTree = "<group>"; };
+		7E0DDBCD19C0D267004E2803 /* SourceBranch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SourceBranch.m; sourceTree = "<group>"; };
+		7E0DDBCF19C0D47B004E2803 /* SourceProliferationKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceProliferationKernel.h; sourceTree = "<group>"; };
+		7E0DDBD019C0D47B004E2803 /* SourceProliferationKernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SourceProliferationKernel.m; sourceTree = "<group>"; };
 		7E43A8111981A48E00C22D22 /* Simulate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simulate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E43A8151981A48E00C22D22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E43A8161981A48E00C22D22 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7E43A81B1981A48E00C22D22 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		7E43A81B1981A48E00C22D22 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Simulate/Images.xcassets; sourceTree = "<group>"; };
 		7E43A8241981A48E00C22D22 /* SimulateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimulateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E43A8291981A48E00C22D22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E43A82A1981A48E00C22D22 /* SimulateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimulateTests.m; sourceTree = "<group>"; };
@@ -61,13 +68,10 @@
 		7E43A8431981A4E000C22D22 /* MoveKernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoveKernel.m; sourceTree = "<group>"; };
 		7E43A8441981A4E000C22D22 /* OpenCLQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCLQueue.h; sourceTree = "<group>"; };
 		7E43A8451981A4E000C22D22 /* OpenCLQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenCLQueue.m; sourceTree = "<group>"; };
-		7E43A84A1981A4E000C22D22 /* proliferation.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = proliferation.cl; sourceTree = "<group>"; };
 		7E43A84B1981A4E000C22D22 /* ProliferationKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProliferationKernel.h; sourceTree = "<group>"; };
 		7E43A84C1981A4E000C22D22 /* ProliferationKernel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProliferationKernel.m; sourceTree = "<group>"; };
 		7E43A84D1981A4E000C22D22 /* SharedFloat4Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedFloat4Data.h; sourceTree = "<group>"; };
 		7E43A84E1981A4E000C22D22 /* SharedFloat4Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedFloat4Data.m; sourceTree = "<group>"; };
-		7E43A84F1981A4E000C22D22 /* SharedIntData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedIntData.h; sourceTree = "<group>"; };
-		7E43A8501981A4E000C22D22 /* SharedIntData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedIntData.m; sourceTree = "<group>"; };
 		7E43A8671981A4F700C22D22 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7E43A8691981A4FA00C22D22 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		7E6144F619ACF4AF00D5CFF5 /* checkCLError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = checkCLError.h; sourceTree = "<group>"; };
@@ -78,6 +82,7 @@
 		7E9EF3011988CD0000B14DF2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		7E9EF30319894F2200B14DF2 /* SimulationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimulationView.h; sourceTree = "<group>"; };
 		7E9EF30419894F2200B14DF2 /* SimulationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimulationView.m; sourceTree = "<group>"; };
+		7EF349AD19CC213F0003936A /* source_move.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = source_move.cl; sourceTree = "<group>"; };
 		7EF7455019B5F7A500488E99 /* zero_image_alpha.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = zero_image_alpha.cl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E02944C19D1DDA800AE87E7 /* GLUT.framework in Frameworks */,
 				7E9EF3021988CD0000B14DF2 /* GLKit.framework in Frameworks */,
 				7E43A86A1981A4FA00C22D22 /* OpenCL.framework in Frameworks */,
 				7E43A8681981A4F700C22D22 /* OpenGL.framework in Frameworks */,
@@ -105,10 +111,12 @@
 		7E43A8081981A48E00C22D22 = {
 			isa = PBXGroup;
 			children = (
+				7E02944B19D1DDA800AE87E7 /* GLUT.framework */,
 				7E9EF3011988CD0000B14DF2 /* GLKit.framework */,
 				7E43A8691981A4FA00C22D22 /* OpenCL.framework */,
 				7E43A8671981A4F700C22D22 /* OpenGL.framework */,
 				7E43A8131981A48E00C22D22 /* Simulate */,
+				7E43A81B1981A48E00C22D22 /* Images.xcassets */,
 				7E43A8271981A48E00C22D22 /* SimulateTests */,
 				7E43A8121981A48E00C22D22 /* Products */,
 			);
@@ -129,7 +137,6 @@
 				7E9EB35119ACE2FF00B14101 /* ChunkedCL */,
 				7EE492B31981A5A800C881A7 /* Cocoa */,
 				7EE492B41981A66900C881A7 /* CL */,
-				7E43A81B1981A48E00C22D22 /* Images.xcassets */,
 				7E43A8141981A48E00C22D22 /* Supporting Files */,
 			);
 			path = Simulate;
@@ -169,6 +176,8 @@
 				7E9EB35819ACEDBB00B14101 /* ChunkedKernel.h */,
 				7E6144F619ACF4AF00D5CFF5 /* checkCLError.h */,
 				7E6144F719ACF4CD00D5CFF5 /* checkCLError.m */,
+				7E0DDBCC19C0D267004E2803 /* SourceBranch.h */,
+				7E0DDBCD19C0D267004E2803 /* SourceBranch.m */,
 			);
 			name = ChunkedCL;
 			sourceTree = "<group>";
@@ -189,10 +198,10 @@
 			isa = PBXGroup;
 			children = (
 				7E43A8361981A4E000C22D22 /* applyO2.cl */,
-				7E43A84A1981A4E000C22D22 /* proliferation.cl */,
 				7E43A8411981A4E000C22D22 /* move.cl */,
 				7E43A8401981A4E000C22D22 /* make_image.cl */,
 				7EF7455019B5F7A500488E99 /* zero_image_alpha.cl */,
+				7EF349AD19CC213F0003936A /* source_move.cl */,
 				7E43A8371981A4E000C22D22 /* ApplyO2Kernel.h */,
 				7E43A8381981A4E000C22D22 /* ApplyO2Kernel.m */,
 				7E43A8421981A4E000C22D22 /* MoveKernel.h */,
@@ -201,10 +210,10 @@
 				7E43A8451981A4E000C22D22 /* OpenCLQueue.m */,
 				7E43A84B1981A4E000C22D22 /* ProliferationKernel.h */,
 				7E43A84C1981A4E000C22D22 /* ProliferationKernel.m */,
+				7E0DDBCF19C0D47B004E2803 /* SourceProliferationKernel.h */,
+				7E0DDBD019C0D47B004E2803 /* SourceProliferationKernel.m */,
 				7E43A84D1981A4E000C22D22 /* SharedFloat4Data.h */,
 				7E43A84E1981A4E000C22D22 /* SharedFloat4Data.m */,
-				7E43A84F1981A4E000C22D22 /* SharedIntData.h */,
-				7E43A8501981A4E000C22D22 /* SharedIntData.m */,
 			);
 			name = CL;
 			sourceTree = "<group>";
@@ -308,16 +317,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E43A8541981A4E000C22D22 /* applyO2.cl in Sources */,
-				7E43A8641981A4E000C22D22 /* SharedIntData.m in Sources */,
+				7EF349AF19CC213F0003936A /* source_move.cl in Sources */,
 				7E43A8621981A4E000C22D22 /* ProliferationKernel.m in Sources */,
 				7E43A85B1981A4E000C22D22 /* make_image.cl in Sources */,
 				7E43A85C1981A4E000C22D22 /* move.cl in Sources */,
 				7E43A8531981A4E000C22D22 /* AppDelegate.m in Sources */,
 				7E43A85E1981A4E000C22D22 /* OpenCLQueue.m in Sources */,
+				7E0DDBCE19C0D267004E2803 /* SourceBranch.m in Sources */,
 				7EF7455119B5F7A500488E99 /* zero_image_alpha.cl in Sources */,
 				7E43A8551981A4E000C22D22 /* ApplyO2Kernel.m in Sources */,
 				7E43A8631981A4E000C22D22 /* SharedFloat4Data.m in Sources */,
-				7E43A8611981A4E000C22D22 /* proliferation.cl in Sources */,
+				7E0DDBD119C0D47B004E2803 /* SourceProliferationKernel.m in Sources */,
 				7E43A8171981A48E00C22D22 /* main.m in Sources */,
 				7E9EB35419ACE31800B14101 /* ChunkedProliferatingSystem.m in Sources */,
 				7E9EF30519894F2200B14DF2 /* SimulationView.m in Sources */,

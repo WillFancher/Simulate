@@ -9,13 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "OpenCLQueue.h"
 #import "SharedFloat4Data.h"
+#import "SourceBranch.h"
 
 @interface ChunkedProliferatingSystem : NSObject
 
+@property OpenCLQueue *queue;
 @property NSMutableArray *cellData;
+@property NSMutableArray *sourceBranches;
 @property SharedFloat4Data *sourceData;
 
-- (void)stepWithQueue:(OpenCLQueue *)queue;
+- (instancetype)initWithQueue:(OpenCLQueue*)queue;
+- (void)step;
 - (int)livingCells;
 
 @end

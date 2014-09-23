@@ -7,13 +7,6 @@
 //
 
 #import "ProliferationKernel.h"
-#import "proliferation.cl.h"
-
-@interface ProliferationKernel () {
-    cl_kernel kernel;
-}
-
-@end
 
 @implementation ProliferationKernel
 
@@ -21,7 +14,6 @@
     self = [super init];
     if (self) {
         srand((uint)time(NULL));
-        kernel = gcl_create_kernel_from_block((__bridge void *)(proliferation_kernel));
     }
     return self;
 }
@@ -56,7 +48,7 @@
                         chunkToFill++;
                         indexToFill = 0;
                         if (chunkToFill == system.cellData.count) {
-                            SharedFloat4Data *newChunk = [[SharedFloat4Data alloc] initWithLength:1024];
+                            SharedFloat4Data *newChunk = [[SharedFloat4Data alloc] initWithLength:1024 queue:queue];
                             [system.cellData addObject:newChunk];
                             fillChunk = newChunk;
                         }
@@ -69,10 +61,6 @@
     for (SharedFloat4Data *chunk in system.cellData) {
         [chunk copyFromHost:queue];
     }
-}
-
-- (void)dealloc {
-    clReleaseKernel(kernel);
 }
 
 @end

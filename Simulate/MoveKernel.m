@@ -32,9 +32,9 @@
     NSMutableArray *newChunks = [NSMutableArray array];
     
     for (SharedFloat4Data *chunk in system.cellData) {
-        SharedFloat4Data *outBuffer = [[SharedFloat4Data alloc] initWithLength:chunk.length];
+        SharedFloat4Data *outBuffer = [[SharedFloat4Data alloc] initWithLength:chunk.length queue:queue];
         
-        cl_mem outMem = gcl_create_buffer_from_ptr(outBuffer.deviceData);
+        cl_mem outMem = outBuffer.deviceData;
         
         // Make sure outMem is a duplicate of original chunk
         [chunk copyFromDevice:queue];
@@ -44,7 +44,7 @@
             for (SharedFloat4Data *otherChunk in system.cellData) {
                 cl_int numIterations = MOVEMENT_ITERATIONS;
                 cl_int numCells = otherChunk.length;
-                cl_mem cellMem = gcl_create_buffer_from_ptr(otherChunk.deviceData);
+                cl_mem cellMem = otherChunk.deviceData;
                 
                 checkCLError(clSetKernelArg(kernel, 0, sizeof(numIterations), &numIterations));
                 checkCLError(clSetKernelArg(kernel, 1, sizeof(numCells), &numCells));
@@ -53,13 +53,10 @@
                 
                 size_t globalSize = outBuffer.length;
                 checkCLError(clEnqueueNDRangeKernel(queue.command_queue, kernel, 1, NULL, &globalSize, NULL, 0, NULL, NULL));
-                
-                checkCLError(clReleaseMemObject(cellMem));
                 checkCLError(clFinish(queue.command_queue));
             }
         }
         
-        checkCLError(clReleaseMemObject(outMem));
         checkCLError(clFinish(queue.command_queue));
         [newChunks addObject:outBuffer];
     }

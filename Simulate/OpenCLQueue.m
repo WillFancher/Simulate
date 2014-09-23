@@ -62,11 +62,11 @@ static void printDeviceInfo(cl_device_id device) {
     printDeviceInfo(self.device);
 }
 
-- (void)dispatchSynchronous:(void(^)()) kernel {
+- (void)dispatchSynchronous:(dispatch_block_t) kernel {
     dispatch_sync(self.queue, kernel);
 }
 
-- (void)dispatchAsynchronous:(void(^)()) kernel {
+- (void)dispatchAsynchronous:(dispatch_block_t) kernel {
     dispatch_async(self.queue, kernel);
 }
 

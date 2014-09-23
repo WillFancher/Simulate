@@ -19,7 +19,6 @@ __kernel void make_image(__global float4 *cellData,
         }
     }
     float val = nearbyCells / pow(scale * 2, 3);
-    val = val > 1 ? 1 : val < 0 ? 0 : val;
 //    val = val > 0 ? 1 : 0;
     colorData[gti * 4 + 3] += val;
 }
