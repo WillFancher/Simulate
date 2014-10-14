@@ -12,6 +12,7 @@
 
 @interface SourceProliferationKernel () {
     cl_kernel kernel;
+    int timeCount;
 }
 
 @end
@@ -21,12 +22,18 @@
 - (instancetype)init {
     if (self = [super init]) {
         kernel = gcl_create_kernel_from_block((__bridge void *)(source_move_kernel));
+        timeCount = 0;
     }
     return self;
 }
 
 - (void)runKernelInSystem:(ChunkedProliferatingSystem *)system
                     queue:(OpenCLQueue *) queue {
+    if (timeCount++ == 4) {
+        timeCount = 0;
+    } else {
+        return;
+    }
     NSMutableArray *branchesToAdd = [NSMutableArray array];
     for (SourceBranch *branch in system.sourceBranches) {
         if (branch.cellsSinceLastBranch >= 10) {

@@ -6,6 +6,7 @@
 //
 //
 
+#import <GLKit/GLKit.h>
 #import "ChunkedProliferatingSystem.h"
 #import "ApplyO2Kernel.h"
 #import "ProliferationKernel.h"
@@ -33,35 +34,52 @@
         cell.w = 1;
         ((SharedFloat4Data *)self.cellData[0]).hostData[0] = cell;
         
-//        self.sourceData = [[SharedFloat4Data alloc] initWithLength:1000];
-//        int count = 0;
-//        for (int x = 0; x < 10; ++x) {
-//            for (int y = 0; y < 10; ++y) {
-//                for (int z = 0; z < 10; ++z) {
-//                    cl_float4 *hostData = self.sourceData.hostData;
-//                    hostData[count].x = x * 10;
-//                    hostData[count].y = y * 10;
-//                    hostData[count].z = z * 10;
-//                    hostData[count].w = 120;
-//                    ++count;
-//                }
-//            }
-//        }
-        self.sourceData = [[SharedFloat4Data alloc] initWithLength:1 queue:queue];
-        self.sourceData.hostData[0].x = 1;
-        self.sourceData.hostData[0].y = 0;
-        self.sourceData.hostData[0].z = 0;
-        self.sourceData.hostData[0].w = 120;
+        self.sourceBranches = [NSMutableArray array];
         
+        self.sourceData = [[SharedFloat4Data alloc] initWithLength:pow(2, 3)+1 queue:queue];
+        
+        cl_float4 *hostData = self.sourceData.hostData;
+        hostData[0].x = 0;
+        hostData[0].y = 0;
+        hostData[0].z = 0;
+        hostData[0].w = 120;
         SourceBranch *firstBranch = [[SourceBranch alloc] init];
         firstBranch.indexInSources = 0;
-        cl_float3 direction;
-        direction.x = 1;
-        direction.y = 1;
-        direction.z = 1;
-        firstBranch.direction = direction;
         firstBranch.cellsSinceLastBranch = 0;
-        self.sourceBranches = [NSMutableArray arrayWithObjects:firstBranch, nil];
+        cl_float3 firstDir;
+        firstDir.x = 1;
+        firstDir.y = 0;
+        firstDir.z = 0;
+        firstBranch.direction = firstDir;
+        [self.sourceBranches addObject:firstBranch];
+        
+        int count = 1;
+        for (int x = -20; x <= 20; x += 40) {
+            for (int y = -20; y <= 20; y += 40) {
+                for (int z = -20; z <= 20; z += 40) {
+                    hostData[count].x = x;
+                    hostData[count].y = y;
+                    hostData[count].z = z;
+                    hostData[count].w = 120;
+                    
+                    SourceBranch *branch = [[SourceBranch alloc] init];
+                    branch.indexInSources = count;
+                    branch.cellsSinceLastBranch = 0;
+                    
+                    GLKVector3 vec = GLKVector3Make(-x, -y, -z);
+                    vec = GLKVector3Normalize(vec);
+                    cl_float3 dir;
+                    dir.x = vec.x;
+                    dir.y = vec.y;
+                    dir.z = vec.z;
+                    branch.direction = dir;
+                    
+                    [self.sourceBranches addObject:branch];
+                    
+                    ++count;
+                }
+            }
+        }
         
         self.kernels = @[
                          [[ApplyO2Kernel alloc] init],

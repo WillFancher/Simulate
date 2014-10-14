@@ -159,14 +159,14 @@
         //    effect.transform.projectionMatrix = projectionMatrix;
         
         GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-        modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 0.5 / totalRadius, 0.5 / totalRadius, 0.5 / totalRadius);
+        modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 2 / totalRadius, 2 / totalRadius, 2 / totalRadius);
         modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, xrot, 0, 1, 0);
         modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, yrot, 1, 0, 0);
         effect.transform.modelviewMatrix = modelViewMatrix;
         [effect prepareToDraw];
         
         glBindVertexArray(vao);
-        glPointSize(pointRadius);
+        glPointSize(pointRadius * 2);
         glDrawArrays(GL_POINTS, 0, numGLPoints);
         
         [self renderSources];
@@ -182,11 +182,13 @@
     GLuint sources_points_vbo;
     GLuint sources_colors_vbo;
     
-    size_t pointSize = system.sourceData.length * 3 * sizeof(GLfloat);
+    int len = system.sourceData.length;
+    
+    size_t pointSize = len * 3 * sizeof(GLfloat);
     GLfloat *sources_points = malloc(pointSize);
-    size_t colorSize = system.sourceData.length * 4 * sizeof(GLfloat);
+    size_t colorSize = len * 4 * sizeof(GLfloat);
     GLfloat *sources_colors = malloc(colorSize);
-    for (int i = 0; i < system.sourceData.length; ++i) {
+    for (int i = 0; i < len; ++i) {
         sources_points[i * 3 + 0] = system.sourceData.hostData[i].x;
         sources_points[i * 3 + 1] = system.sourceData.hostData[i].y;
         sources_points[i * 3 + 2] = system.sourceData.hostData[i].z;
@@ -215,6 +217,12 @@
     glBindVertexArray(sources_vao);
     glDisable(GL_DEPTH_TEST);
     glDrawArrays(GL_POINTS, 0, system.sourceData.length);
+    
+    glFinish();
+    
+    glDeleteBuffers(1, &sources_points_vbo);
+    glDeleteBuffers(1, &sources_colors_vbo);
+    glDeleteVertexArrays(1, &sources_vao);
     
     glFinish();
     
@@ -253,9 +261,10 @@
     checkCLError(clFinish(queue.command_queue));
     
     [queue dispatchAsynchronous:^{
-        for (int i = 0; i < NUM_ITERATIONS; ++i) {
-            printf("%d:\t%d\tliving cells\t%lu\tchunks\n\t%d\tsources\t%d\tbranches\n",
-                   i,
+        int i = 0;
+        while (true) {
+            printf("%d:\t%d\tliving cells\t%lu\tchunks\n\t%d\tsources\t\t%d\tbranches\n",
+                   ++i,
                    [system livingCells],
                    (unsigned long)system.cellData.count,
                    system.sourceData.length,
