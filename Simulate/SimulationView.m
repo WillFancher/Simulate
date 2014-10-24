@@ -21,11 +21,15 @@
     GLKBaseEffect *effect;
     float xrot, yrot;
     CGPoint mousePos;
+    float scale;
     
     float totalRadius;
     float pointRadius;
     int numGLPoints;
     NSTimer *glTimer;
+    
+    GLfloat *points;
+    GLfloat *colors;
     
     GLuint vao;
     GLuint points_vbo;
@@ -81,22 +85,21 @@
     
     [self.openGLContext makeCurrentContext];
     printf("Using OpenGL version: %s\n", glGetString(GL_VERSION));
-    xrot = 0;
-    yrot = 0;
+    xrot = 20;
+    yrot = 20;
     mousePos = CGPointZero;
+    scale = 3;
     
     effect = [[GLKBaseEffect alloc] init];
     
     
-    pointRadius = 2;
-    totalRadius = 100;
+    pointRadius = 0.5;
+    totalRadius = 25;
     int count = 0;
     numGLPoints = ceil(pow(1 + 2 * totalRadius / (pointRadius * 2), 3));
     
-//    GLfloat points[numGLPoints * 3];
-    GLfloat *points = malloc(numGLPoints * 3 * sizeof(GLfloat));
-//    GLfloat colors[numGLPoints * 4];
-    GLfloat *colors = malloc(numGLPoints * 4 * sizeof(GLfloat));
+    points = malloc(numGLPoints * 3 * sizeof(GLfloat));
+    colors = malloc(numGLPoints * 4 * sizeof(GLfloat));
     
     for (int x = -totalRadius; x <= totalRadius; x += pointRadius * 2) {
         for (int y = -totalRadius; y <= totalRadius; y += pointRadius * 2) {
@@ -132,8 +135,6 @@
     
     glFinish();
     
-    free(points);
-    free(colors);
     glInitialized = YES;
 }
 
@@ -159,14 +160,14 @@
         //    effect.transform.projectionMatrix = projectionMatrix;
         
         GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-        modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 2 / totalRadius, 2 / totalRadius, 2 / totalRadius);
+        modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, scale * 0.2 / totalRadius, scale * 0.2 / totalRadius, scale * 0.2 / totalRadius);
         modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, xrot, 0, 1, 0);
         modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, yrot, 1, 0, 0);
         effect.transform.modelviewMatrix = modelViewMatrix;
         [effect prepareToDraw];
         
         glBindVertexArray(vao);
-        glPointSize(pointRadius * 2);
+        glPointSize(pointRadius * 4);
         glDrawArrays(GL_POINTS, 0, numGLPoints);
         
         [self renderSources];
@@ -241,6 +242,10 @@
     mousePos = pos;
 }
 
+- (void)scrollWheel:(NSEvent *)theEvent {
+    scale += [theEvent deltaY];
+}
+
 
 
 // OpenCL Code
@@ -270,6 +275,7 @@
                    system.sourceData.length,
                    (int)system.sourceBranches.count);
             [self cl_execute];
+            [self saveDensitiesToFile: [NSString stringWithFormat:@"%d.txt", i]];
         }
     }];
 }
@@ -302,10 +308,28 @@
             checkCLError(clFinish(queue.command_queue));
         }
         
+        checkCLError(clEnqueueReadBuffer(queue.command_queue, cl_points, CL_TRUE, 0, numGLPoints * 3 * sizeof(GLfloat), points, 0, NULL, NULL));
+        checkCLError(clEnqueueReadBuffer(queue.command_queue, cl_colors, CL_TRUE, 0, numGLPoints * 4 * sizeof(GLfloat), colors, 0, NULL, NULL));
+        
         checkCLError(clEnqueueReleaseGLObjects(queue.command_queue, 1, &cl_points, 0, NULL, NULL));
         checkCLError(clEnqueueReleaseGLObjects(queue.command_queue, 1, &cl_colors, 0, NULL, NULL));
         checkCLError(clFinish(queue.command_queue));
     }
+}
+
+- (void)saveDensitiesToFile:(NSString *)path {
+    NSMutableString *str = [NSMutableString string];
+    for (int i = 0; i < numGLPoints; ++i) {
+        if (colors[i * 4 + 3] != 0) {
+            [str appendFormat:@"%d %d %d %f\n", (int)points[i * 3], (int)points[i * 3 + 1], (int)points[i * 3 + 2], colors[i * 4 + 3]];
+        }
+    }
+    [str writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
+}
+
+- (void)dealloc {
+    free(points);
+    free(colors);
 }
 
 @end

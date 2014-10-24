@@ -54,9 +54,10 @@
         [self.sourceBranches addObject:firstBranch];
         
         int count = 1;
-        for (int x = -20; x <= 20; x += 40) {
-            for (int y = -20; y <= 20; y += 40) {
-                for (int z = -20; z <= 20; z += 40) {
+        int step = 7;
+        for (int x = -step; x <= step; x += step * 2) {
+            for (int y = -step; y <= step; y += step * 2) {
+                for (int z = -step; z <= step; z += step * 2) {
                     hostData[count].x = x;
                     hostData[count].y = y;
                     hostData[count].z = z;

@@ -21,4 +21,7 @@ __kernel void make_image(__global float4 *cellData,
     float val = nearbyCells / pow(scale * 2, 3);
 //    val = val > 0 ? 1 : 0;
     colorData[gti * 4 + 3] += val;
+    if (colorData[gti * 4 + 3] > 1) {
+        colorData[gti * 4 + 3] = 1;
+    }
 }

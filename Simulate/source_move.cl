@@ -14,7 +14,17 @@ __kernel void source_move(int numSources,
             
             float dist = distance(branchEnd.xyz, otherSource.xyz);
             float force = branchEnd.w * otherSource.w / dist;
-            vec += force * normalize(sourceData[branchEndIndex].xyz - sourceData[i].xyz);
+            vec += force * normalize(branchEnd.xyz - otherSource.xyz);
+        }
+    }
+    
+    for (int i = 0; i < numCells; ++i) {
+        float4 cell = cellData[i];
+        
+        if (cell.w > 0) {
+            float dist = distance(branchEnd.xyz, cell.xyz);
+            float force = branchEnd.w * cell.w * 100 / dist;
+            vec += force * normalize(cell.xyz - branchEnd.xyz);
         }
     }
     vec = normalize(vec);
